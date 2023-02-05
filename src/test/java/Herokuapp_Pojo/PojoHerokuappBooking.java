@@ -1,4 +1,4 @@
-package Herokuapp_Pojo;
+package pojos.Herokuapp_Pojo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

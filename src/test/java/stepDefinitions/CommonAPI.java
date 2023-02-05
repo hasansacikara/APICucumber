@@ -1,7 +1,6 @@
-package stepDefinitions;
+package stepDefinitions.api;
 
 import Dummy_Pojo.PojoDummyExpectedBody;
-import Herokuapp_Pojo.PojoHerokuappBooking;
 import hooks.api.HooksAPI;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
@@ -14,7 +13,6 @@ import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import org.testng.Assert;
 import pojos.Dummy_Pojo.PojoDummyData;
-import pojos.Dummy_Pojo.PojoDummyExpectedBody;
 import pojos.Herokuapp_Pojo.PojoHerokuappBooking;
 import pojos.Herokuapp_Pojo.PojoHerokuappBookingDates;
 import pojos.Herokuapp_Pojo.PojoHerokuappExpectedBody;
@@ -35,7 +33,6 @@ public class CommonAPI {
     PojoHerokuappBookingDates bookingDates;
     PojoHerokuappBooking reqBody;
     PojoHerokuappExpectedBody expBody;
-
     @Before(order = 0)
     public void beforeAPIScnerio() {
         spec = new RequestSpecBuilder()
@@ -45,18 +42,16 @@ public class CommonAPI {
 
     @Given("URL ve body hazirla")
     public void url_ve_body_hazirla() {
-        spec.pathParam("pp1", "booking");
+        spec.pathParam("pp1","booking");
 
-        bookingDates = new PojoHerokuappBookingDates("2021-06-01", "2021-06-10");
-        reqBody = new PojoHerokuappBooking("Ahmet", "Bulut", 500, false, "wi-fi", bookingDates);
+        bookingDates = new PojoHerokuappBookingDates("2021-06-01","2021-06-10");
+        reqBody = new PojoHerokuappBooking("Ahmet","Bulut",500,false,"wi-fi",bookingDates);
 
     }
-
     @Given("Expected Data hazirla")
     public void expected_data_hazirla() {
-        expBody = new PojoHerokuappExpectedBody(24, reqBody);
+        expBody = new PojoHerokuappExpectedBody(24,reqBody);
     }
-
     @Given("Response'i kaydet")
     public void response_i_kaydet() {
         response = given().
@@ -67,30 +62,28 @@ public class CommonAPI {
                 post("/{pp1}");
         response.prettyPrint();
     }
-
     @Given("Assertion")
     public void assertion() {
         PojoHerokuappExpectedBody respPojo = response.as(PojoHerokuappExpectedBody.class);
 
-        assertEquals(expBody.getBooking().getFirstname(), respPojo.getBooking().getFirstname());
-        assertEquals(expBody.getBooking().getLastname(), respPojo.getBooking().getLastname());
-        assertEquals(expBody.getBooking().getTotalprice(), respPojo.getBooking().getTotalprice());
-        assertEquals(expBody.getBooking().isDepositpaid(), respPojo.getBooking().isDepositpaid());
-        assertEquals(expBody.getBooking().getAdditionalneeds(), respPojo.getBooking().getAdditionalneeds());
-        assertEquals(expBody.getBooking().getBookingdates().getCheckin(), respPojo.getBooking().getBookingdates().getCheckin());
-        assertEquals(expBody.getBooking().getBookingdates().getCheckout(), respPojo.getBooking().getBookingdates().getCheckout());
+        assertEquals(expBody.getBooking().getFirstname(),respPojo.getBooking().getFirstname());
+        assertEquals(expBody.getBooking().getLastname(),respPojo.getBooking().getLastname());
+        assertEquals(expBody.getBooking().getTotalprice(),respPojo.getBooking().getTotalprice());
+        assertEquals(expBody.getBooking().isDepositpaid(),respPojo.getBooking().isDepositpaid());
+        assertEquals(expBody.getBooking().getAdditionalneeds(),respPojo.getBooking().getAdditionalneeds());
+        assertEquals(expBody.getBooking().getBookingdates().getCheckin(),respPojo.getBooking().getBookingdates().getCheckin());
+        assertEquals(expBody.getBooking().getBookingdates().getCheckout(),respPojo.getBooking().getBookingdates().getCheckout());
 
     }
-
     @Given("Dummy icin gerekli path params {string} hazirla")
     public void dummy_icin_gerekli_path_params_hazirla(String string) {
-        spec.pathParams("pp1", "employee", "pp2", 3);
+        spec.pathParams("pp1","employee","pp2",3);
     }
 
     @Given("Dummy get sorgusu icin Expected Data hazirla")
     public void dummy_get_sorgusu_icin_expected_data_hazirla() {
-        data = new PojoDummyData(3, "Ashton Cox", 86000, 66, "");
-        dummyExpectedBody = new PojoDummyExpectedBody("success", data, "Successfully! Record has been fetched.");
+        data = new PojoDummyData(3,"Ashton Cox",86000,66,"");
+        dummyExpectedBody = new PojoDummyExpectedBody("success",data,"Successfully! Record has been fetched.");
     }
 
     @Given("Get Request icin Response'i kaydet")
@@ -102,14 +95,17 @@ public class CommonAPI {
     public void donen_response_in_expected_ile_karsilastirmasini_yap() {
         PojoDummyExpectedBody respPojo = response.as(PojoDummyExpectedBody.class);
 
-        assertEquals(dummyExpectedBody.getStatus(), respPojo.getStatus());
-        assertEquals(dummyExpectedBody.getMessage(), respPojo.getMessage());
-        assertEquals(dummyExpectedBody.getData().getEmployee_name(), respPojo.getData().getEmployee_name());
-        assertEquals(dummyExpectedBody.getData().getEmployee_salary(), respPojo.getData().getEmployee_salary());
-        assertEquals(dummyExpectedBody.getData().getEmployee_age(), respPojo.getData().getEmployee_age());
-        assertEquals(dummyExpectedBody.getData().getProfile_image(), respPojo.getData().getProfile_image());
-        assertEquals(dummyExpectedBody.getData().getId(), respPojo.getData().getId());
+        assertEquals(dummyExpectedBody.getStatus(),respPojo.getStatus());
+        assertEquals(dummyExpectedBody.getMessage(),respPojo.getMessage());
+        assertEquals(dummyExpectedBody.getData().getEmployee_name(),respPojo.getData().getEmployee_name());
+        assertEquals(dummyExpectedBody.getData().getEmployee_salary(),respPojo.getData().getEmployee_salary());
+        assertEquals(dummyExpectedBody.getData().getEmployee_age(),respPojo.getData().getEmployee_age());
+        assertEquals(dummyExpectedBody.getData().getProfile_image(),respPojo.getData().getProfile_image());
+        assertEquals(dummyExpectedBody.getData().getId(),respPojo.getData().getId());
     }
+
+
+
 
 
     @Given("API user sets required path params {string}")
@@ -125,12 +121,11 @@ public class CommonAPI {
         tempPath.deleteCharAt(tempPath.lastIndexOf("/"));
         HooksAPI.fullPath = tempPath.toString();
 
-        spec.queryParam("name", "antin");
+        spec.queryParam("name","antin");
         spec.queryParam("key", ConfigReader.getProperty("key"));
-        spec.queryParam("token", ConfigReader.getProperty("token"));
+        spec.queryParam("token",ConfigReader.getProperty("token"));
 
     }
-
     @When("Api user sends post requests and gets response")
     public void api_user_sends_post_requests_and_gets_response() {
         response = given()
@@ -193,8 +188,6 @@ public class CommonAPI {
     @Given("API user verify that response message is {string} v2")
     public void api_user_verify_that_response_message_is_v2(String message) {
         HooksAPI.response.then().body("message", equalTo(message));
-
     }
 
-    }
-
+}
